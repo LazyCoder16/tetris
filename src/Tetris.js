@@ -17,7 +17,6 @@ class Tetris {
 
   drawTetrimino = () => {
     const t = this.getTetrimino(this.x, this.y, this.pid, this.rid);
-    //console.log(this.tetrimino);
     for(const block of this.tetrimino) {
       this.board[block[0]][block[1]] = "0";
     }
@@ -89,7 +88,6 @@ class Tetris {
         let flag = true;
         for(const block2 of this.tetrimino) {
           if(x+1 === block2[0] && y === block2[1]) {
-            //console.log(x, y, block2[0], block2[1], this.board[x+1][y]);
             flag = false;
             break;
           }
