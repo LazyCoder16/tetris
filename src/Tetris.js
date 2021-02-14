@@ -80,7 +80,6 @@ class Tetris {
     if(this.x === this.rows-1) {
       this.updateScore();
       this.spawnTetrimino();
-      this.drawTetrimino();
       return;
     }
     for(const [x, y] of this.tetrimino) {

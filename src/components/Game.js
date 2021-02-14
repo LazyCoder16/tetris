@@ -13,21 +13,12 @@ class Game extends Component {
       this.setState({ tetris });
     }, 900);
 
-    document.addEventListener("keydown", (e) => {
-      let k = e.key;
-      let { tetris } = this.state;
-      if(tetris.done) return;
-      if(k === "ArrowLeft") tetris.left();
-      else if(k === "ArrowUp") tetris.rotate();
-      else if(k === "ArrowRight") tetris.right();
-      else if(k === "ArrowDown") tetris.down();
-      this.setState({ditchInterval: true});
-      window.setTimeout(() => this.setState({ditchInterval: false}), 50);
-    });
+    document.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentWillUnmount() {
     window.clearInterval(this.intervalId);
+    document.removeEventListener("keydown", this.handleKeyPress);
   }
 
   handleReset = () => {
