@@ -32,16 +32,16 @@ class Tetris {
       else return [[x,y-3], [x,y-2], [x,y-1], [x,y]];
     }
     else if(pid === "J")  {
+      if(rid === 0) return [[x-1,y-2], [x,y-2], [x,y-1], [x,y]];
       if(rid === 1) return [[x-2,y-1], [x-1,y-1], [x,y-1], [x,y-2]];
       if(rid === 2) return [[x-1,y-2], [x-1,y-1], [x-1,y], [x,y]];
       if(rid === 3) return [[x-2,y-1], [x-2,y-2], [x-1,y-2], [x,y-2]];
-      if(rid === 0) return [[x-1,y-2], [x,y-2], [x,y-1], [x,y]];
     }
     else if(pid === "L") {
+      if(rid === 0) return [[x-1,y], [x-1,y-1], [x-1,y-2], [x,y-2]];
       if(rid === 1) return [[x-2,y-1], [x-1,y-1], [x,y-1], [x,y]];
       if(rid === 2) return [[x,y-2], [x,y-1], [x,y], [x-1,y]];
       if(rid === 3) return [[x-2,y-1], [x-2,y-2], [x-1,y-1], [x,y-1]];
-      if(rid === 0) return [[x-1,y], [x-1,y-1], [x-1,y-2], [x,y-2]];
     }
     else if(pid === "O") {
       return [[x-1,y-1], [x,y-1], [x-1,y], [x,y]];
@@ -76,32 +76,6 @@ class Tetris {
     this.drawTetrimino();
   }
 
-  down = () => {
-    if(this.x === this.rows-1) {
-      this.updateScore();
-      this.spawnTetrimino();
-      return;
-    }
-    for(const [x, y] of this.tetrimino) {
-      if(this.board[x+1][y] !== "0") {
-        let flag = true;
-        for(const block2 of this.tetrimino) {
-          if(x+1 === block2[0] && y === block2[1]) {
-            flag = false;
-            break;
-          }
-        }
-        if(flag) {
-          this.updateScore();
-          this.spawnTetrimino();
-          return;
-        }
-      }
-    }
-    ++this.x;
-    this.drawTetrimino();
-  }
-
   isValidTetrimino = (t) => {
     for(const [x, y] of t) {
       if(x<0 || x>=this.rows || y<0 || y>=this.cols)
@@ -119,6 +93,17 @@ class Tetris {
       }
     }
     return true;
+  }
+
+  down = () => {
+    let t = this.getTetrimino(this.x+1, this.y, this.pid, this.rid);
+    if(!this.isValidTetrimino(t)) {
+      this.updateScore();
+      this.spawnTetrimino();
+      return;
+    }
+    ++this.x;
+    this.drawTetrimino();
   }
 
   rotate = () => {
