@@ -4,25 +4,38 @@ import Tetris from '../Tetris';
 
 class Game extends Component {
   state = {tetris: new Tetris(), ditchInterval: false};
+  steps = 0;
+  interval = 900;
 
   componentDidMount() {
-    this.intervalId = window.setInterval(() => {
-      let { tetris, ditchInterval } = this.state;
-      if(ditchInterval || tetris.done) return;
-      tetris.down();
-      this.setState({ tetris });
-    }, 900);
-
+    this.tid = window.setTimeout(this.intervalFunc, this.interval);
     document.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.intervalId);
+    window.clearTimeout(this.tid);
     document.removeEventListener("keydown", this.handleKeyPress);
   }
 
   handleReset = () => {
     this.setState({tetris: new Tetris(), ditchInterval: false})
+    this.steps = 0;
+    this.interval = 900;
+    window.clearTimeout(this.tid);
+    this.tid = window.setTimeout(this.intervalFunc, this.interval);
+  }
+
+  intervalFunc = () => {
+    let { tetris, ditchInterval } = this.state;
+    if(!ditchInterval && !tetris.done) {
+      tetris.down();
+      this.setState({ tetris });
+      ++this.steps;
+      if(this.steps % 6 === 0) --this.interval;
+    }
+
+    this.tid = window.setTimeout(this.intervalFunc, this.interval);
+    console.log(this.interval);
   }
 
   handleKeyPress = (e) => {
@@ -47,6 +60,8 @@ class Game extends Component {
     else if(k === "ArrowDown") {
       tetris.down();
       this.setState({ditchInterval: true});
+      ++this.steps;
+      if(this.steps % 6 === 0) --this.interval;
       window.setTimeout(() => this.setState({ditchInterval: false}), 50);
     }
   }
