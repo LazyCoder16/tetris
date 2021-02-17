@@ -3,7 +3,7 @@
 ## Overview
 
 This is the classic game of Tetris made in react js by Abhishek Jain.  
-You can see the app running live at [https://lazy-tetris-react.web.app/](https://lazy-tetris-react.web.app/)  
+You can see the app running live at [https://lazycoder16.github.io/tetris/](https://lazycoder16.github.io/tetris/)  
 Here is a screenshot of the app:  
 ![Alt text](assets/screenshot.png?raw=true "Screenshot")
 
