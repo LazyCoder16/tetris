@@ -18,7 +18,7 @@ class Game extends Component {
   }
 
   handleReset = () => {
-    this.setState({tetris: new Tetris(), ditchInterval: false})
+    this.setState({tetris: new Tetris(), ditchInterval: false});
     this.steps = 0;
     this.interval = 900;
     window.clearTimeout(this.tid);
